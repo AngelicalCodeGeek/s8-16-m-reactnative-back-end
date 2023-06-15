@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <input type="text" id="text2">
+  <input type="button" value="Submid" id="button">
+  <textarea name="chat" id="chat" cols="30" rows="10"></textarea>
+</body>
+<script>
+  const b = document.querySelector('#button');
+  const chat = document.querySelector('#chat');
+  let response = [];
+
+  b.addEventListener('click', () => {
+    const text = document.querySelector('#text2').value;
+
+    response.push({ user: text });
+
+    fetch('http://localhost:8000/chat', {
+      method: "POST",
+      body: JSON.stringify(response),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json())
+      .then(res => {
+        const assitan = res.choices[0].message.content
+        chat.value = assitan;
+        response[response.length - 1].assitan = assitan;
+        console.log(response);
+      });
+  });
+</script>
+
+</html>
