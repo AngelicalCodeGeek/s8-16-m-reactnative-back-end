@@ -27,7 +27,7 @@ class ChatServices {
     };
 
     try {
-      const response = await fetch(url, options);
+      const response = await fetch(url, options).catch(error => { console.log(error); });
       let result = await response.json();
       const result2 = result.choices[0].message.content;
       return {
